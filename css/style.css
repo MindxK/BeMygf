@@ -1,7 +1,52 @@
+@font-face {
+    font-family: 'myfont';
+    src: url(/fonts/iannnnn-DOG-Bold.ttf);
+}
+
+body {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+    font-family: 'myfont'
+}
+
+#page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(245, 187, 168);
+    border-radius: 25px;
+    width: 500px;        
+    height: 500px;
+}
+
+.btn-yes {
+    background-color: rgb(138, 207, 111);
+    border-radius: 7px;
+    border: 1px solid;
+    font-family: 'myfont';
+    margin-right: 15px;
+}
+
+.btn-no {
+    background-color: rgb(255, 94, 94);
+    border-radius: 7px;
+    border: 1px solid;
+    font-family: 'myfont';
+}
+
+#bear {
+    font-size: 9rem;
+}
+
 #pageyes {
     display: none;
 }
 
 #msno {
     display: none;
+    margin-top: 50px;
 }

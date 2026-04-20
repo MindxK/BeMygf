@@ -1,12 +1,12 @@
 let Nocount = -1
 
 const msgno = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6"
+    "1................................................",
+    "2................................................",
+    "3................................................",
+    "4................................................",
+    "5................................................",
+    "6................................................"
 ];
 
 function cilckno() {
@@ -17,10 +17,9 @@ function cilckno() {
         Nocount = Nocount + 1 } 
     msg.textContent = msgno[Nocount]
     msg.style.display = 'block'
-
     btnno.style.position = 'relative'
-    btnno.style.left = (Math.random() * 50) + 'px'
-    btnno.style.top = (Math.random() * 50) + 'px'
+    btnno.style.left = (Math.random() * 70) + 'px'
+    btnno.style.top = (Math.random() * 70) + 'px'
 }
 
 function cilckyes() {
