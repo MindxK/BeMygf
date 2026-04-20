@@ -19,8 +19,8 @@ body {
     align-items: center;
     background-color: rgb(245, 187, 168);
     border-radius: 25px;
-    width: 500px;        
-    height: 500px;
+    width: 400px;        
+    height: 400px;
 }
 
 .btn-yes {
@@ -39,7 +39,7 @@ body {
 }
 
 #bear {
-    font-size: 9rem;
+    font-size: 5rem;
 }
 
 #pageyes {
