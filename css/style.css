@@ -19,7 +19,7 @@ body {
     align-items: center;
     background-color: rgb(245, 187, 168);
     border-radius: 25px;
-    border: 2px solid;
+    border: 1px solid rgb(112, 59, 45);
     width: 500px;        
     height: 500px;
 }
@@ -41,8 +41,20 @@ body {
     padding: 5px;
 }
 
+.sub {
+  text-align: center;
+}
+
 #bear {
-    font-size: 9rem;
+    font-size: 8rem;
+    position: relative;
+    animation: mymove 1300ms infinite;
+}
+
+@keyframes mymove {
+    0% {top: 0px;}
+    50% {top: 13px;}
+    100% {top: 0px;}
 }
 
 #pageyes {
