@@ -1,29 +1,283 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will you be my girlfriend?</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --pink: #ff6b9d; --deep-pink: #e63f7a; --cream: #fff8f0; }
+  body {
+    min-height: 100vh; background: var(--cream);
+    font-family: 'Mitr', sans-serif; color: #4a2040;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, #ffe0f0 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, #ffd6e8 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, #fff0e6 0%, transparent 50%), var(--cream);
+  }
+  .heart-rain { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .h { position: absolute; animation: fall linear infinite; opacity: 0.6; }
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0.7; }
+    100% { transform: translateY(110vh)  rotate(360deg); opacity: 0; }
+  }
+  .card {
+    position: relative; z-index: 10; background: white;
+    border-radius: 32px; padding: 48px 40px 40px;
+    max-width: 420px; width: 92%;
+    box-shadow: 0 8px 60px rgba(255,107,157,0.18);
+    text-align: center;
+    animation: popIn 0.7s cubic-bezier(.34,1.56,.64,1) both;
+    border: 2px solid #ffe0f0;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.6) translateY(40px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .emoji-big {
+    font-size: 5rem; line-height: 1; margin-bottom: 16px; display: block;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.13); } }
+  h1 { font-size: 1.9rem; font-weight: 600; color: var(--deep-pink); line-height: 1.3; margin-bottom: 8px; }
+  .sub { font-size: 0.95rem; color: #b07090; font-weight: 300; margin-bottom: 32px; line-height: 1.7; }
+  .btn-row {
+    display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap;
+  }
+  .btn-yes {
+    background: linear-gradient(135deg, var(--pink), var(--deep-pink));
+    color: white; border: none; border-radius: 50px; padding: 15px 36px;
+    font-size: 1.1rem; font-family: 'Mitr', sans-serif; font-weight: 500;
+    cursor: pointer; box-shadow: 0 6px 24px rgba(230,63,122,0.35);
+    transition: transform 0.15s;
+  }
+  .btn-yes:hover { transform: translateY(-2px) scale(1.04); }
+  .btn-yes:active { transform: scale(0.96); }
+
+/* ปุ่มไม่เป็น — fixed เต็มเวลา วางตำแหน่งด้วย left/top ที่คำนวณจาก JS ล้วน */
+#noBtn {
+position: fixed;
+z-index: 200;
+background: #f5f5f5; color: #999;
+border: 2px solid #e0e0e0; border-radius: 50px;
+padding: 13px 26px; font-size: 1.05rem;
+font-family: ‘Mitr’, sans-serif; font-weight: 400;
+cursor: pointer; white-space: nowrap;
+user-select: none; -webkit-user-select: none;
+touch-action: manipulation;
+transition: left 0.25s cubic-bezier(.34,1.4,.64,1), top 0.25s cubic-bezier(.34,1.4,.64,1);
+}
+
+#floatMsg {
+position: fixed; z-index: 300;
+background: #fff0f5; color: var(–deep-pink);
+border: 1.5px solid #ffc0d8; border-radius: 10px;
+padding: 5px 12px; font-size: 0.82rem;
+pointer-events: none; white-space: nowrap;
+display: none;
+transition: left 0.25s cubic-bezier(.34,1.4,.64,1), top 0.25s cubic-bezier(.34,1.4,.64,1);
+}
+
+.screen { display: none; animation: popIn 0.6s cubic-bezier(.34,1.56,.64,1) both; }
+.screen.show { display: block; }
+.card-content.hide { display: none; }
+.screen h2 { font-size: 2.1rem; color: var(–deep-pink); font-weight: 600; margin-bottom: 12px; }
+.screen p  { font-size: 1rem; color: #b07090; line-height: 1.8; margin-bottom: 8px; }
+.big-emoji {
+font-size: 3.5rem; display: block; margin-bottom: 14px;
+animation: bounce 0.7s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes bounce { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes shake {
+0%,100% { transform: rotate(0); } 20% { transform: rotate(-10deg); }
+40% { transform: rotate(10deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(8deg); }
+}
+.shake { animation: shake 0.6s ease both; }
+@media (max-width: 400px) { .card { padding: 36px 18px 30px; } h1 { font-size: 1.6rem; } }
+</style>
+
 </head>
 <body>
-    <div id="page">
-        <div id="bear">🐻</div>
-        <h1 class="sub">Nong Bream <br> Will you be my girlfriend?</h1>
-        <p class="sub">..................</p>
-        <div class="btns">
-            <button class="btn-yes" onclick="cilckyes()"> Yes, of course! </button>
-            <button class="btn-no" id="btnno" onclick="cilckno()"> no </button>
-        </div>
-        <p id="msno"> NNNNN </p>
+<div class="bg"></div>
+<div class="heart-rain" id="hearts"></div>
+<div id="floatMsg"></div>
+
+<div class="card">
+  <div class="card-content" id="mainContent">
+    <span class="emoji-big">🐻</span>
+    <h1>Nong Bream.<br>Will you be my girlfriend?</h1>
+    <p class="sub">เค้าไม่รู้ว่ามันเร็วไปไหม<br>แต่โทรคุยกันทุกวันขนาดนี้แยะ 🥺</p>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="sayYes()">💗 Yes! Of course!</button>
+      <!-- placeholder ขนาดเท่ากัน ให้ card layout ไม่พัง -->
+      <div id="noBtnPlaceholder" style="width:120px;height:50px;"></div>
     </div>
-    <div id="pageyes">
-        <div id="bear">♦</div>
-        <h1>เย้ กหกฟกห</h1>
+  </div>
+  <div class="screen" id="successScreen">
+    <span class="big-emoji">🎉</span>
+    <h2>เย้ๆๆๆ!! 🥰</h2>
+    <p>มีแฟนเป็นสาวพยาบาลแล้วว~<br>เดี๋ยวเค้าอวดพ่อเบยมีแฟนเป็นพยาบาลล</p>
+  </div>
+  <div class="screen" id="rejectScreen">
+    <span class="big-emoji shake">😢</span>
+    <h2 style="color:#9b59b6;">ไม่เป็นรายคั้บ~</h2>
+    <p>เดี๋ยวเค้าจีบบรีมต่ออ 🥺💜</p>
+  </div>
+</div>
 
-    </div>
+<!-- ปุ่มอยู่นอก card เป็น fixed ตลอด -->
 
+<button id="noBtn">No</button>
 
-    <script src="js/script.js"></script>
+<script>
+  /* ── Hearts ── */
+  const heartChars = ['💗','💕','💖','💓','🌸','✨','💝','🩷'];
+  const heartsEl = document.getElementById('hearts');
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'h';
+    h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
+    h.style.animationDuration = (4 + Math.random() * 7) + 's';
+    h.style.animationDelay = (Math.random() * 8) + 's';
+    heartsEl.appendChild(h);
+  }
+
+  const btn         = document.getElementById('noBtn');
+  const msgEl       = document.getElementById('floatMsg');
+  const placeholder = document.getElementById('noBtnPlaceholder');
+
+  const messages = [
+    'จริงหรอ 🥺','อย่ากดเลย 💕','ไม่ให้กดหรอกแบร่ๆ😝',
+    'แบร่ๆ 😋','แน่ใจแล้วหรอ? 💔'
+  ];
+  const MAX = 7;
+  let count = 0, msgIdx = 0, busy = false;
+
+  /* วางปุ่มทับ placeholder ตั้งแต่แรก (ไม่มี transition ตอน init) */
+  function initPos() {
+    const BW = btn.offsetWidth;
+    const BH = btn.offsetHeight;
+    placeholder.style.width  = BW + 'px';
+    placeholder.style.height = BH + 'px';
+
+    const r = placeholder.getBoundingClientRect();
+    // ปิด transition ชั่วคราว
+    btn.style.transition = 'none';
+    moveTo(r.left, r.top, BW, BH);
+    // เปิด transition กลับใน frame ถัดไป
+    requestAnimationFrame(() => {
+      btn.style.transition = 'left 0.25s cubic-bezier(.34,1.4,.64,1), top 0.25s cubic-bezier(.34,1.4,.64,1)';
+    });
+  }
+
+  /* ย้ายปุ่มไปตำแหน่ง (x,y) โดย clamp ให้อยู่ในจอ 100% */
+  function moveTo(x, y, bw, bh) {
+    const PAD = 12;
+    const maxX = window.innerWidth  - bw - PAD;
+    const maxY = window.innerHeight - bh - PAD;
+    const nx = Math.max(PAD, Math.min(x, maxX));
+    const ny = Math.max(PAD, Math.min(y, maxY));
+    btn.style.left = nx + 'px';
+    btn.style.top  = ny + 'px';
+    return { nx, ny };
+  }
+
+  /* อัปเดตข้อความให้อยู่เหนือปุ่ม */
+  function placeMsg(btnX, btnY, bw, bh) {
+    const PAD = 12;
+    const mw = msgEl.offsetWidth  || 130;
+    const mh = msgEl.offsetHeight || 28;
+    let mx = btnX + bw / 2 - mw / 2;
+    let my = btnY - mh - 8;
+    if (my < PAD) my = btnY + bh + 8;
+    mx = Math.max(PAD, Math.min(mx, window.innerWidth - mw - PAD));
+    my = Math.max(PAD, Math.min(my, window.innerHeight - mh - PAD));
+    msgEl.style.left = mx + 'px';
+    msgEl.style.top  = my + 'px';
+  }
+
+  window.addEventListener('load', initPos);
+  window.addEventListener('resize', initPos); // handle rotation
+
+  function runAway(e) {
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+
+    count++;
+    if (count >= MAX) {
+      btn.style.display = 'none';
+      msgEl.style.display = 'none';
+      document.getElementById('mainContent').classList.add('hide');
+      document.getElementById('rejectScreen').classList.add('show');
+      return;
+    }
+
+    /* แสดงข้อความ */
+    msgEl.style.display = 'block';
+    msgEl.textContent = messages[msgIdx % messages.length];
+    msgIdx++;
+
+    const BW = btn.offsetWidth  || 120;
+    const BH = btn.offsetHeight || 50;
+    const PAD = 12;
+
+    const curX = parseFloat(btn.style.left) || 0;
+    const curY = parseFloat(btn.style.top)  || 0;
+    const maxX = window.innerWidth  - BW - PAD;
+    const maxY = window.innerHeight - BH - PAD;
+
+    /* สุ่มตำแหน่งใหม่ ห่างจากเดิมพอสมควร */
+    let nx, ny, tries = 0;
+    do {
+      nx = PAD + Math.random() * (maxX - PAD);
+      ny = PAD + Math.random() * (maxY - PAD);
+      tries++;
+    } while (tries < 30 && Math.abs(nx - curX) < 80 && Math.abs(ny - curY) < 60);
+
+    /* clamp อีกรอบ — แน่ใจ 100% */
+    nx = Math.max(PAD, Math.min(nx, maxX));
+    ny = Math.max(PAD, Math.min(ny, maxY));
+
+    btn.style.left = nx + 'px';
+    btn.style.top  = ny + 'px';
+
+    /* ขยับข้อความตามหลัง transition จบ */
+    msgEl.style.transition = 'none';
+    setTimeout(() => {
+      placeMsg(nx, ny, BW, BH);
+      busy = false;
+    }, 270);
+  }
+
+  btn.addEventListener('mouseover',  runAway);
+  btn.addEventListener('touchstart', runAway, { passive: false });
+
+  function sayYes() {
+    btn.style.display = 'none';
+    msgEl.style.display = 'none';
+    document.getElementById('mainContent').classList.add('hide');
+    document.getElementById('successScreen').classList.add('show');
+    for (let i = 0; i < 18; i++) {
+      const h = document.createElement('div');
+      h.className = 'h';
+      h.textContent = ['💗','💖','🎉','✨','🌸'][Math.floor(Math.random() * 5)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.fontSize = (1 + Math.random() * 2) + 'rem';
+      h.style.animationDuration = (2 + Math.random() * 3) + 's';
+      heartsEl.appendChild(h);
+    }
+  }
+</script>
+
 </body>
-</html
+</html>
