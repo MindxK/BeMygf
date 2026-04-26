@@ -16,10 +16,10 @@ function cilckno() {
     if (Nocount < msgno.length - 1) {
         Nocount = Nocount + 1 } 
     msg.textContent = msgno[Nocount]
-    msg.style.display = 'block'
+    msg.style.visibility = 'visible'
     btnno.style.position = 'relative'
     btnno.style.left = (Math.random() * 70) + 'px'
-    btnno.style.top = (Math.random() * 70) + 'px'
+    btnno.style.bottom = (Math.random() * 25) + 'px'
 }
 
 function cilckyes() {
